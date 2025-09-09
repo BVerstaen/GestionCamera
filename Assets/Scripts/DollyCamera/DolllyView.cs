@@ -5,9 +5,10 @@ public class DolllyView : AView
     public float roll;
     public float distance;
     public float fov;
-
+    [Space]
+    public bool IsAuto;
     public Transform target;
-
+    [Space]
     public Rail rail;
     public float distanceOnRail;
     public float speed;
@@ -16,8 +17,10 @@ public class DolllyView : AView
     {
         CameraConfiguration cameraConfiguration = new CameraConfiguration();
 
-        //cameraConfiguration.yaw = yaw;
-        //cameraConfiguration.pitch = pitch;
+        Vector3 dir = (target.position - transform.position).normalized;
+        cameraConfiguration.yaw = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
+        cameraConfiguration.pitch = -Mathf.Asin(dir.y) * Mathf.Rad2Deg;
+
         cameraConfiguration.roll = roll;
 
         cameraConfiguration.fieldOfView = fov;
@@ -31,6 +34,7 @@ public class DolllyView : AView
         return cameraConfiguration;
     }
 
+    //TEST FOR RAIL
     private void Update()
     {
         if (Input.GetKey(KeyCode.Q))
