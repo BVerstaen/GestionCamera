@@ -485,7 +485,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1964241291
 Transform:
   m_ObjectHideFlags: 0
@@ -517,6 +517,8 @@ MonoBehaviour:
   _weight: 1
   roll: 20
   fov: 80
+  _yawOffsetMax: 0
+  _pitchOffsetMax: 0
   target: {x: 0, y: 0, z: 0}
   targetTransform: {fileID: 1213596771}
 --- !u!1001 &7544925626419182692
@@ -590,7 +592,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2990853755425518722, guid: 68eac9527594c1d499cb6b1b1f38b23b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.3
+      value: -4.69
       objectReference: {fileID: 0}
     - target: {fileID: 2990853755425518722, guid: 68eac9527594c1d499cb6b1b1f38b23b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -598,7 +600,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2990853755425518722, guid: 68eac9527594c1d499cb6b1b1f38b23b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.16
+      value: 2.26
       objectReference: {fileID: 0}
     - target: {fileID: 2990853755425518722, guid: 68eac9527594c1d499cb6b1b1f38b23b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -627,6 +629,14 @@ PrefabInstance:
     - target: {fileID: 2990853755425518722, guid: 68eac9527594c1d499cb6b1b1f38b23b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5165302829504642463, guid: 68eac9527594c1d499cb6b1b1f38b23b, type: 3}
+      propertyPath: _yawOffsetMax
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 5165302829504642463, guid: 68eac9527594c1d499cb6b1b1f38b23b, type: 3}
+      propertyPath: _pitchOffsetMax
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5165302829504642463, guid: 68eac9527594c1d499cb6b1b1f38b23b, type: 3}
       propertyPath: targetTransform

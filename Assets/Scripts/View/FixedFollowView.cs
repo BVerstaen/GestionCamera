@@ -5,6 +5,9 @@ public class FixedFollowView : AView
     public float roll;
     public float fov = 80;
 
+    [SerializeField] private float _yawOffsetMax = 180f;
+    [SerializeField] private float _pitchOffsetMax = 90f;
+
     [Space(7)]
     public Vector3 target;
     public Transform targetTransform;
@@ -15,6 +18,14 @@ public class FixedFollowView : AView
         {
             targetTransform = CameraController.Instance.transform;
         }
+    }
+
+    protected override void OnValidate()
+    {
+        base.OnValidate();
+
+        _yawOffsetMax = Mathf.Clamp(_yawOffsetMax, 0, 180);
+        _pitchOffsetMax = Mathf.Clamp(_pitchOffsetMax, 0, 90);
     }
 
     public override CameraConfiguration GetConfiguration()
@@ -28,8 +39,9 @@ public class FixedFollowView : AView
 
         Vector3 dir = (target - transform.position).normalized;
 
-        cameraConfiguration.yaw = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
-        cameraConfiguration.pitch = -Mathf.Asin(dir.y) * Mathf.Rad2Deg;
+        float eulerXRotation = transform.rotation.eulerAngles.y;
+        cameraConfiguration.yaw = Mathf.Clamp(Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg, eulerXRotation - _yawOffsetMax, eulerXRotation + _yawOffsetMax);
+        cameraConfiguration.pitch = Mathf.Clamp(-Mathf.Asin(dir.y) * Mathf.Rad2Deg, -_pitchOffsetMax, _pitchOffsetMax);
         cameraConfiguration.roll = roll;
 
         cameraConfiguration.fieldOfView = fov;
