@@ -2,12 +2,17 @@ using UnityEngine;
 
 public class AView : MonoBehaviour
 {
-    public bool IsActiveOnStart;
+    public bool IsActiveOnStart = true;
 
-    public float _weight;
+    [SerializeField] private float _weight = 1;
     public float weight { get => _weight; set => _weight = Mathf.Max(0f, value); }
 
-    protected void Start()
+    protected virtual void OnValidate()
+    {
+        weight = weight;
+    }
+
+    protected virtual void Start()
     {
         if (IsActiveOnStart)
         {
