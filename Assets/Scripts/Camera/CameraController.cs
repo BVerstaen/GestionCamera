@@ -9,7 +9,7 @@ public class CameraController : MonoBehaviour
     [Header("References")]
     public Camera controlledCamera;
     [SerializeField] private CameraConfiguration _currentConfiguration;
-    [SerializeField] private CameraConfiguration _targetConfiguration;
+    private CameraConfiguration _targetConfiguration;
 
     [Header("Smoothing")]
     [SerializeField] private float _smoothSpeed;
