@@ -25,7 +25,7 @@ public struct CameraConfiguration
     public void DrawGizmos(Color a_color)
     {
         Gizmos.color = a_color;
-        Gizmos.DrawSphere(pivot, 0.25f);
+        Gizmos.DrawSphere(pivot, 0.1f);
         Vector3 position = GetPosition();
         Gizmos.DrawLine(pivot, position);
         Gizmos.matrix = Matrix4x4.TRS(position, GetRotation(), Vector3.one);
