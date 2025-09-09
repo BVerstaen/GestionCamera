@@ -7,6 +7,9 @@ public class AView : MonoBehaviour
     [SerializeField] private float _weight = 1;
     public float weight { get => _weight; set => _weight = Mathf.Max(0f, value); }
 
+    [Header("Debug")]
+    public Color gizmosColor = Color.blue;
+
     protected virtual void OnValidate()
     {
         weight = weight;
@@ -31,5 +34,18 @@ public class AView : MonoBehaviour
             CameraController.Instance.AddView(this);
         else
             CameraController.Instance.RemoveView(this);
+    }
+
+    private void OnDrawGizmos()
+    {
+        CameraConfiguration camConfig = GetConfiguration();
+
+        Gizmos.color = gizmosColor;
+        Gizmos.DrawSphere(camConfig.pivot, 0.1f);
+        Vector3 position = camConfig.GetPosition();
+        Gizmos.DrawLine(camConfig.pivot, position);
+        Gizmos.matrix = Matrix4x4.TRS(position, camConfig.GetRotation(), Vector3.one);
+        Gizmos.DrawFrustum(Vector3.zero, camConfig.fieldOfView, 0.5f, 0f, Camera.main.aspect);
+        Gizmos.matrix = Matrix4x4.identity;
     }
 }

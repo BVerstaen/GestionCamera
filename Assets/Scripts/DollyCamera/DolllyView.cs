@@ -17,23 +17,25 @@ public class DolllyView : AView
     {
         CameraConfiguration cameraConfiguration = new CameraConfiguration();
 
-        Vector3 dir = (target.position - transform.position).normalized;
-        cameraConfiguration.yaw = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
-        cameraConfiguration.pitch = -Mathf.Asin(dir.y) * Mathf.Rad2Deg;
-        cameraConfiguration.roll = roll;
-
-        cameraConfiguration.fieldOfView = fov;
-
         if (IsAuto)
             cameraConfiguration.pivot = rail.GetNearestPositionFromTarget(target.position);
         else
             cameraConfiguration.pivot = rail.GetPosition(distanceOnRail);
 
-        cameraConfiguration.distance = 0;
+        Vector3 dir = (target.position - cameraConfiguration.pivot).normalized;
+        cameraConfiguration.yaw = (Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg);
+        cameraConfiguration.pitch = (-Mathf.Asin(dir.y) * Mathf.Rad2Deg);
+        cameraConfiguration.roll = roll;
+
+        cameraConfiguration.fieldOfView = fov;
+        cameraConfiguration.distance = distance;
 
         cameraConfiguration.OnClampPitch();
-        if (CameraController.Instance.fullRollRotation)
-            cameraConfiguration.OnClampRoll();
+        if (CameraController.Instance)
+        {
+            if (CameraController.Instance.fullRollRotation)
+                cameraConfiguration.OnClampRoll();
+        }
 
         return cameraConfiguration;
     }
@@ -47,8 +49,29 @@ public class DolllyView : AView
             MoveDistanceOnRail(1);
     }
 
-    public void MoveDistanceOnRail(int direction)
+    public void MoveDistanceOnRail(int a_direction)
     {
-        distanceOnRail += direction * speed * Time.deltaTime;
+        distanceOnRail += a_direction * speed * Time.deltaTime;
+    }
+
+    private void OnDrawGizmos()
+    {
+        //Gizmo change a bit because you need a child to place the camera
+        CameraConfiguration camConfig = GetConfiguration();
+        
+        //Get first child, if exist
+        if (rail.transform.childCount > 0)
+        {
+            camConfig.pivot = rail.transform.GetChild(0).position;
+
+            Gizmos.color = gizmosColor;
+            Gizmos.DrawSphere(camConfig.pivot, 0.1f);
+            Vector3 position = camConfig.GetPosition();
+            Gizmos.DrawLine(camConfig.pivot, position);
+            Gizmos.matrix = Matrix4x4.TRS(position, camConfig.GetRotation(), Vector3.one);
+            Gizmos.DrawFrustum(Vector3.zero, camConfig.fieldOfView, 0.5f, 0f, Camera.main.aspect);
+            Gizmos.matrix = Matrix4x4.identity;
+        }
+
     }
 }

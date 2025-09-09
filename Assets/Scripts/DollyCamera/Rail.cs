@@ -41,13 +41,13 @@ public class Rail : MonoBehaviour
 
     public float GetLength() => _length;
 
-    public Vector3 GetPosition(float distance)
+    public Vector3 GetPosition(float a_distance)
     {
         //Si loop -> faire boucler la distance
         if (IsLoop)
-            distance = distance % _length;
+            a_distance = a_distance % _length;
         else
-            distance = Mathf.Clamp(distance, 0, _length);
+            a_distance = Mathf.Clamp(a_distance, 0, _length);
 
         //For each nodes
         float segmentLength = 0;
@@ -55,9 +55,9 @@ public class Rail : MonoBehaviour
         {
             //Calcule la longueur du segment
             float segmentCurrentDistance = Vector3.Distance(_railNodes[i], _railNodes[i + 1]);
-            if (distance >= segmentLength && distance < (segmentLength + segmentCurrentDistance))
+            if (a_distance >= segmentLength && a_distance < (segmentLength + segmentCurrentDistance))
             {
-                float progressionOnSegment = (distance - segmentLength) / segmentCurrentDistance;
+                float progressionOnSegment = (a_distance - segmentLength) / segmentCurrentDistance;
                 return Vector3.Lerp(_railNodes[i], _railNodes[i + 1], progressionOnSegment);
             }
             segmentLength += segmentCurrentDistance;
@@ -67,9 +67,9 @@ public class Rail : MonoBehaviour
         if (IsLoop)
         {
             float segmentCurrentDistance = Vector3.Distance(_railNodes[_railNodes.Count - 1], _railNodes[0]);
-            if (distance >= segmentLength && distance < (segmentLength + segmentCurrentDistance))
+            if (a_distance >= segmentLength && a_distance < (segmentLength + segmentCurrentDistance))
             {
-                float progressionOnSegment = (distance - segmentLength) / segmentCurrentDistance;
+                float progressionOnSegment = (a_distance - segmentLength) / segmentCurrentDistance;
                 return Vector3.Lerp(_railNodes[_railNodes.Count - 1], _railNodes[0], progressionOnSegment);
             }
             segmentLength += segmentCurrentDistance;
@@ -77,14 +77,14 @@ public class Rail : MonoBehaviour
         return _railNodes[_railNodes.Count - 1];
     }
 
-    public Vector3 GetNearestPositionFromTarget(Vector3 targetPosition)
+    public Vector3 GetNearestPositionFromTarget(Vector3 a_targetPosition)
     {
         float currentSmallestDistance = Mathf.Infinity;
         Vector3 currentSmallestPosition = Vector3.zero;
         for (int i = 0; i < _railNodes.Count - 1; i++)
         {
-            Vector3 projPosition = MathUtils.GetNearestPointOnSegment(_railNodes[i], _railNodes[i + 1], targetPosition);
-            float distanceToTarget = Vector3.Distance(projPosition, targetPosition);
+            Vector3 projPosition = MathUtils.GetNearestPointOnSegment(_railNodes[i], _railNodes[i + 1], a_targetPosition);
+            float distanceToTarget = Vector3.Distance(projPosition, a_targetPosition);
 
             if(distanceToTarget < currentSmallestDistance)
             {
