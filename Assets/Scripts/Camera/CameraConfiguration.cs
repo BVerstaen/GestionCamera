@@ -20,6 +20,7 @@ public struct CameraConfiguration
     }
 
     public void OnClampPitch() => pitch = Mathf.Clamp(pitch, -90f, 90f);
+    public void OnClampRoll() => roll = Mathf.Clamp(roll, -180f, 180f);
 
     public void DrawGizmos(Color a_color)
     {

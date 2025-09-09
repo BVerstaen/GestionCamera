@@ -18,11 +18,16 @@ public class CameraController : MonoBehaviour
     [Header("Debug")]
     [SerializeField] private Color _debugColor;
 
+    [SerializeField] private bool _fullRollRotation;
+    public bool fullRollRotation { get => _fullRollRotation;}
+
     private List<AView> activeViews;
 
     private void OnValidate()
     {
-        _currentConfiguration.OnClampPitch();
+        _cameraConfiguration.OnClampPitch();
+        if (_fullRollRotation)
+            _cameraConfiguration.OnClampRoll();
     }
 
     private void Awake()
@@ -56,9 +61,11 @@ public class CameraController : MonoBehaviour
 
     private void ApplyConfiguration()
     {
-        controlledCamera.transform.position = _currentConfiguration.GetPosition();
-        controlledCamera.transform.rotation = _currentConfiguration.GetRotation();
-        controlledCamera.fieldOfView = _currentConfiguration.fieldOfView;
+        _cameraConfiguration = ComputeAverage();
+
+        controlledCamera.transform.position = _cameraConfiguration.GetPosition();
+        controlledCamera.transform.rotation = _cameraConfiguration.GetRotation();
+        controlledCamera.fieldOfView = _cameraConfiguration.fieldOfView;
     }
 
     public void AddView(AView view)
@@ -78,11 +85,15 @@ public class CameraController : MonoBehaviour
 
     private CameraConfiguration ComputeAverage()
     {
+        if (activeViews == null)
+            return _cameraConfiguration;
+
         CameraConfiguration newConfig = new CameraConfiguration();
 
         Vector2 sumYaw = Vector2.zero;
         float sumPitch = 0;
-        Vector2 sumRoll = Vector2.zero;
+        float sumRoll = 0;
+        Vector2 sumRollComplete = Vector2.zero;
         float sumFov = 0;
         Vector3 sumPivot = Vector3.zero;
 
@@ -96,16 +107,20 @@ public class CameraController : MonoBehaviour
 
             sumYaw += new Vector2(Mathf.Cos(config.yaw * Mathf.Deg2Rad), Mathf.Sin(config.yaw * Mathf.Deg2Rad)) * view.weight;
             sumPitch += config.pitch * view.weight;
-            sumRoll += new Vector2(Mathf.Cos(config.roll * Mathf.Deg2Rad), Mathf.Sin(config.roll * Mathf.Deg2Rad)) * view.weight;
+            sumRoll += config.roll * view.weight;
+            sumRollComplete += new Vector2(Mathf.Cos(config.roll * Mathf.Deg2Rad), Mathf.Sin(config.roll * Mathf.Deg2Rad)) * view.weight;
 
             sumFov += config.fieldOfView * view.weight;
 
             sumPivot += config.pivot * view.weight;
         }
 
+        if (sumWeight <= 0)
+            return _cameraConfiguration;
+
         newConfig.yaw = Vector2.SignedAngle(Vector2.right, sumYaw);
         newConfig.pitch = sumPitch / sumWeight;
-        newConfig.roll = Vector2.SignedAngle(Vector2.right, sumRoll);
+        newConfig.roll = _fullRollRotation ? Vector2.SignedAngle(Vector2.right, sumRollComplete) : sumRoll / sumWeight;
 
         newConfig.fieldOfView = sumFov / sumWeight;
         newConfig.pivot = sumPivot / sumWeight;

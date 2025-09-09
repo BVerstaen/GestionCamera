@@ -20,6 +20,10 @@ public class FixedView : AView
         cameraConfiguration.pivot = transform.position;
         cameraConfiguration.distance = 0;
 
+        cameraConfiguration.OnClampPitch();
+        if (CameraController.Instance.fullRollRotation)
+            cameraConfiguration.OnClampRoll();
+
         return cameraConfiguration;
     }
 }
