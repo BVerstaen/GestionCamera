@@ -25,9 +25,9 @@ public class CameraController : MonoBehaviour
 
     private void OnValidate()
     {
-        _cameraConfiguration.OnClampPitch();
+        _currentConfiguration.OnClampPitch();
         if (_fullRollRotation)
-            _cameraConfiguration.OnClampRoll();
+            _currentConfiguration.OnClampRoll();
     }
 
     private void Awake()
@@ -61,11 +61,11 @@ public class CameraController : MonoBehaviour
 
     private void ApplyConfiguration()
     {
-        _cameraConfiguration = ComputeAverage();
+        _targetConfiguration = ComputeAverage();
 
-        controlledCamera.transform.position = _cameraConfiguration.GetPosition();
-        controlledCamera.transform.rotation = _cameraConfiguration.GetRotation();
-        controlledCamera.fieldOfView = _cameraConfiguration.fieldOfView;
+        controlledCamera.transform.position = _currentConfiguration.GetPosition();
+        controlledCamera.transform.rotation = _currentConfiguration.GetRotation();
+        controlledCamera.fieldOfView = _currentConfiguration.fieldOfView;
     }
 
     public void AddView(AView view)
@@ -86,7 +86,7 @@ public class CameraController : MonoBehaviour
     private CameraConfiguration ComputeAverage()
     {
         if (activeViews == null)
-            return _cameraConfiguration;
+            return _currentConfiguration;
 
         CameraConfiguration newConfig = new CameraConfiguration();
 
@@ -116,7 +116,7 @@ public class CameraController : MonoBehaviour
         }
 
         if (sumWeight <= 0)
-            return _cameraConfiguration;
+            return _currentConfiguration;
 
         newConfig.yaw = Vector2.SignedAngle(Vector2.right, sumYaw);
         newConfig.pitch = sumPitch / sumWeight;
