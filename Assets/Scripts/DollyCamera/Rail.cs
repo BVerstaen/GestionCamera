@@ -77,6 +77,25 @@ public class Rail : MonoBehaviour
         return _railNodes[_railNodes.Count - 1];
     }
 
+    public Vector3 GetNearestPositionFromTarget(Vector3 targetPosition)
+    {
+        float currentSmallestDistance = Mathf.Infinity;
+        Vector3 currentSmallestPosition = Vector3.zero;
+        for (int i = 0; i < _railNodes.Count - 1; i++)
+        {
+            Vector3 projPosition = MathUtils.GetNearestPointOnSegment(_railNodes[i], _railNodes[i + 1], targetPosition);
+            float distanceToTarget = Vector3.Distance(projPosition, targetPosition);
+
+            if(distanceToTarget < currentSmallestDistance)
+            {
+                currentSmallestDistance = distanceToTarget;
+                currentSmallestPosition = projPosition;
+            }
+        }
+
+        return currentSmallestPosition;
+    }
+
     private void OnDrawGizmos()
     {
         //Draw debug rail
