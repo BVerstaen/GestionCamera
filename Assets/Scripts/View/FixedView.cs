@@ -5,7 +5,7 @@ public class FixedView : AView
     public float yaw;
     public float pitch;
     public float roll;
-    public float fov;
+    public float fov = 80;
 
     public override CameraConfiguration GetConfiguration()
     {
@@ -21,7 +21,7 @@ public class FixedView : AView
         cameraConfiguration.distance = 0;
 
         cameraConfiguration.OnClampPitch();
-        if (CameraController.Instance.fullRollRotation)
+        if (!CameraController.Instance.fullRollRotation)
             cameraConfiguration.OnClampRoll();
 
         return cameraConfiguration;
