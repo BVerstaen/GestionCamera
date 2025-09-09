@@ -4,7 +4,7 @@ public class AView : MonoBehaviour
 {
     public bool IsActiveOnStart;
 
-    protected float _weight;
+    public float _weight;
     public float weight { get => _weight; set => _weight = Mathf.Max(0f, value); }
 
     protected void Start()
