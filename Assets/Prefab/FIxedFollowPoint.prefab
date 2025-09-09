@@ -48,5 +48,7 @@ MonoBehaviour:
   _weight: 1
   roll: 0
   fov: 80
+  _yawOffsetMax: 180
+  _pitchOffsetMax: 90
   target: {x: 0, y: 0, z: 0}
   targetTransform: {fileID: 0}

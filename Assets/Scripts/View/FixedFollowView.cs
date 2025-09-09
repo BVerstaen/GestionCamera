@@ -40,7 +40,7 @@ public class FixedFollowView : AView
         Vector3 dir = (target - transform.position).normalized;
 
         float eulerXRotation = transform.rotation.eulerAngles.y;
-        cameraConfiguration.yaw = Mathf.Clamp(Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg, eulerXRotation - _yawOffsetMax, eulerXRotation + _yawOffsetMax);
+        cameraConfiguration.yaw = Mathf.Clamp(Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg, -_yawOffsetMax, _yawOffsetMax);
         cameraConfiguration.pitch = Mathf.Clamp(-Mathf.Asin(dir.y) * Mathf.Rad2Deg, -_pitchOffsetMax, _pitchOffsetMax);
         cameraConfiguration.roll = roll;
 
