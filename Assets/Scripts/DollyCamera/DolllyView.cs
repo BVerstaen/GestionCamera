@@ -20,11 +20,15 @@ public class DolllyView : AView
         Vector3 dir = (target.position - transform.position).normalized;
         cameraConfiguration.yaw = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
         cameraConfiguration.pitch = -Mathf.Asin(dir.y) * Mathf.Rad2Deg;
-
         cameraConfiguration.roll = roll;
 
         cameraConfiguration.fieldOfView = fov;
-        cameraConfiguration.pivot = rail.GetPosition(distanceOnRail);
+
+        if (IsAuto)
+            cameraConfiguration.pivot = rail.GetNearestPositionFromTarget(target.position);
+        else
+            cameraConfiguration.pivot = rail.GetPosition(distanceOnRail);
+
         cameraConfiguration.distance = 0;
 
         cameraConfiguration.OnClampPitch();
