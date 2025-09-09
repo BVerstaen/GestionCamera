@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class FixedFollowView : AView
 {
@@ -37,10 +38,10 @@ public class FixedFollowView : AView
             target = targetTransform.position;
         }
 
-        Vector3 dir = (target - transform.position).normalized;
+        Vector3 dir = transform.InverseTransformDirection((target - transform.position).normalized);
+        float dirAngle = Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
 
-        float eulerXRotation = transform.rotation.eulerAngles.y;
-        cameraConfiguration.yaw = Mathf.Clamp(Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg, -_yawOffsetMax, _yawOffsetMax);
+        cameraConfiguration.yaw = transform.eulerAngles.y + Mathf.Clamp(dirAngle, -_yawOffsetMax, _yawOffsetMax);
         cameraConfiguration.pitch = Mathf.Clamp(-Mathf.Asin(dir.y) * Mathf.Rad2Deg, -_pitchOffsetMax, _pitchOffsetMax);
         cameraConfiguration.roll = roll;
 
