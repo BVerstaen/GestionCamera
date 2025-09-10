@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class AView : MonoBehaviour
 {
-    public bool IsActiveOnStart = true;
+    //Variable à retirer selon l'exo 1.3 du TP_Volumes
+    //public bool IsActiveOnStart = true;
 
     [SerializeField] private float _weight = 1;
     public float weight { get => _weight; set => _weight = Mathf.Max(0f, value); }
@@ -17,10 +18,10 @@ public class AView : MonoBehaviour
 
     protected virtual void Start()
     {
-        if (IsActiveOnStart)
-        {
-            SetActive(IsActiveOnStart);
-        }
+        //if (IsActiveOnStart)
+        //{
+        //    SetActive(IsActiveOnStart);
+        //}
     }
 
     public virtual CameraConfiguration GetConfiguration()

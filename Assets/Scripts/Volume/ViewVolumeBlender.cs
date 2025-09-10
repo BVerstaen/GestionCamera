@@ -5,8 +5,8 @@ public class ViewVolumeBlender : MonoBehaviour
 {
     public static ViewVolumeBlender Instance;
 
-    private List<AViewVolume> _activeViewVolumes;
-    private Dictionary<AView, List<AViewVolume>> _volumesPerViews;
+    private List<AViewVolume> _activeViewVolumes = new List<AViewVolume>();
+    private Dictionary<AView, List<AViewVolume>> _volumesPerViews = new Dictionary<AView, List<AViewVolume>>();
 
     private void Awake()
     {
