@@ -42,4 +42,14 @@ public class ViewVolumeBlender : MonoBehaviour
             a_volume.view.SetActive(false);
         }
     }
+
+    private void OnGUI()
+    {
+        //List active volumes
+        foreach(AViewVolume aViewVolume in _activeViewVolumes)
+        {
+            GUILayout.Label(aViewVolume.gameObject.name);
+
+        }
+    }
 }
