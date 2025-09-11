@@ -18,6 +18,46 @@ public class ViewVolumeBlender : MonoBehaviour
         Instance = this;
     }
 
+    private void Update()
+    {
+        UpdateWeight();
+    }
+
+    private void UpdateWeight()
+    {
+        //Reset views to 0
+        foreach (AViewVolume viewVolume in _activeViewVolumes)
+            viewVolume.view.weight = 0;
+
+        //Sort active volumes
+        _activeViewVolumes.Sort(0, _activeViewVolumes.Count, ComparePriority());
+
+        //Calculate weight
+        foreach (AViewVolume v in _activeViewVolumes)
+        {
+            float weight = Mathf.Clamp01(v.ComputeSelfWeight());
+            float remainingWeight = 1.0f - weight;
+
+            //Multiply all active views by remaining weight
+            foreach (AViewVolume vToAdd in _activeViewVolumes)
+                vToAdd.view.weight *= remainingWeight;
+
+            //Add weight to the current view
+            v.view.weight += weight;
+        }
+    }
+    
+    private static Comparer<AViewVolume> ComparePriority()
+    {
+        return Comparer<AViewVolume>.Create((a, b) =>
+        {
+            if (a.priority == b.priority)
+                return a.Uid.CompareTo(b.Uid);
+            else
+                return a.priority.CompareTo(b.priority);
+        });
+    }
+
     public void AddVolume(AViewVolume a_volume)
     {
         _activeViewVolumes.Add(a_volume);

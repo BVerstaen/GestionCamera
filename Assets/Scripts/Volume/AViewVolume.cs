@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class AViewVolume : MonoBehaviour
@@ -10,6 +11,8 @@ public class AViewVolume : MonoBehaviour
 
     protected bool IsActive {  get; private set; }
 
+    public int Uid { get => _Uid; }
+    
     private void Awake()
     {
         _Uid = NextUid;
@@ -26,4 +29,5 @@ public class AViewVolume : MonoBehaviour
         else 
             ViewVolumeBlender.Instance.RemoveVolume(this);
     }
+
 }
