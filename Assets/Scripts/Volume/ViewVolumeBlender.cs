@@ -47,7 +47,7 @@ public class ViewVolumeBlender : MonoBehaviour
         }
     }
     
-    private static Comparer<AViewVolume> ComparePriority()
+    private Comparer<AViewVolume> ComparePriority()
     {
         return Comparer<AViewVolume>.Create((a, b) =>
         {
