@@ -35,12 +35,45 @@ public class TriggerViewVolume : AViewVolume
 
     private void OnDrawGizmos()
     {
-        BoxCollider collider = gameObject.GetComponent<BoxCollider>();
-        if (collider)
+        Collider collider = gameObject.GetComponent<BoxCollider>();
+        if (collider == null)
+            return;
+
+        Gizmos.color = Color.green;
+        Gizmos.matrix = transform.localToWorldMatrix;
+
+        //Box collider
+        if (collider is BoxCollider box)
         {
-            Gizmos.color = Color.green;
-            Gizmos.matrix = transform.localToWorldMatrix;
-            Gizmos.DrawWireCube(collider.center, collider.size);
+            Gizmos.DrawWireCube(box.center, box.size);
+            return;
+        }
+
+        //Sphere collider
+        if (collider is SphereCollider sphere)
+        {
+            Gizmos.DrawWireSphere(sphere.center, sphere.radius);
+            return;
+        }
+
+        //Capsule collider
+        if (collider is CapsuleCollider capsule)
+        {
+            // Capsules are tricky: we approximate it using a wire cube
+            Vector3 size = Vector3.zero;
+            switch (capsule.direction)
+            {
+                case 0: // X axis
+                    size = new Vector3(capsule.height, capsule.radius * 2, capsule.radius * 2);
+                    break;
+                case 1: // Y axis
+                    size = new Vector3(capsule.radius * 2, capsule.height, capsule.radius * 2);
+                    break;
+                case 2: // Z axis
+                    size = new Vector3(capsule.radius * 2, capsule.radius * 2, capsule.height);
+                    break;
+            }
+            Gizmos.DrawWireCube(capsule.center, size);
         }
     }
 }
