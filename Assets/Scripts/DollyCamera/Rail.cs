@@ -15,16 +15,10 @@ public class Rail : MonoBehaviour
     private void Start()
     {
         //Add found rail to nodes
-        foreach (Transform child in transform)
-        {
-            if (child != null)
-            {
-                _railNodes.Add(child.transform.position);
-            }
-        }
+        GetRailNodes();
 
         //Get length
-        if(_railNodes.Count > 1)
+        if (_railNodes.Count > 1)
         {
             for (int i = _railNodes.Count - 1; i > 0; i--)
             {
@@ -32,7 +26,7 @@ public class Rail : MonoBehaviour
             }
 
             //If loop -> add length form last to first
-            if(IsLoop)
+            if (IsLoop)
                 _length += Vector3.Distance(_railNodes[_railNodes.Count - 1], _railNodes[0]);
         }
         else
@@ -43,8 +37,24 @@ public class Rail : MonoBehaviour
 
     public bool IsRailNodesInitialized() => _railNodes.Count > 0;
 
+    private void GetRailNodes()
+    {
+        _railNodes.Clear();
+        foreach (Transform child in transform)
+        {
+            if (child != null)
+            {
+                _railNodes.Add(child.transform.position);
+            }
+        }
+    }
+
     public Vector3 GetPosition(float a_distance)
     {
+        //Used for gizmos debug
+        if (_railNodes.Count <= 0)
+            GetRailNodes();
+
         //Si loop -> faire boucler la distance
         if (IsLoop)
             a_distance = a_distance % _length;
@@ -81,6 +91,10 @@ public class Rail : MonoBehaviour
 
     public Vector3 GetNearestPositionFromTarget(Vector3 a_targetPosition)
     {
+        //Used for gizmos debug
+        if (_railNodes.Count <= 0)
+            GetRailNodes();
+
         float currentSmallestDistance = Mathf.Infinity;
         Vector3 currentSmallestPosition = Vector3.zero;
         for (int i = 0; i < _railNodes.Count - 1; i++)

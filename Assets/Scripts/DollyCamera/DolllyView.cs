@@ -17,19 +17,10 @@ public class DolllyView : AView
     {
         CameraConfiguration cameraConfiguration = new CameraConfiguration();
 
-        //Used in debug for the gizmos
-        if (!Application.isPlaying)
-        {
-            if (rail.transform.childCount > 0)
-                cameraConfiguration.pivot = rail.transform.GetChild(0).transform.position;
-        }
-        else
-        {
-            if (IsAuto)
-                cameraConfiguration.pivot = rail.GetNearestPositionFromTarget(target.position);
-            else if (rail.IsRailNodesInitialized())
-                cameraConfiguration.pivot = rail.GetPosition(distanceOnRail);
-        }
+        if (IsAuto)
+            cameraConfiguration.pivot = rail.GetNearestPositionFromTarget(target.position);
+        else if (rail.IsRailNodesInitialized())
+            cameraConfiguration.pivot = rail.GetPosition(distanceOnRail);
 
         Vector3 dir = (target.position - cameraConfiguration.pivot).normalized;
         cameraConfiguration.yaw = (Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg);
