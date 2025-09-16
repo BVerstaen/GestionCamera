@@ -56,6 +56,9 @@ public class DolllyView : AView
 
     private void OnDrawGizmos()
     {
+        if (!target)
+            return;
+
         //Gizmo change a bit because you need a child to place the camera
         CameraConfiguration camConfig = GetConfiguration();
         

@@ -39,7 +39,8 @@ public class TriggerViewVolume : AViewVolume
         if (collider)
         {
             Gizmos.color = Color.green;
-            Gizmos.DrawWireCube(transform.position + collider.center, collider.size);
+            Gizmos.matrix = transform.localToWorldMatrix;
+            Gizmos.DrawWireCube(collider.center, collider.size);
         }
     }
 }

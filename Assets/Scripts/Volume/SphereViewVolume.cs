@@ -24,6 +24,9 @@ public class SphereViewVolume : AViewVolume
 
     private void Update()
     {
+        if (!_targetTransform)
+            return;
+
         _distance = Vector3.Distance(transform.position, _targetTransform.position);
 
         if (_distance <= outerRadius && !IsActive)
@@ -34,6 +37,9 @@ public class SphereViewVolume : AViewVolume
 
     public override float ComputeSelfWeight()
     {
+        if (outerRadius == innerRadius)
+            return 1;
+
         float weight = Mathf.InverseLerp(outerRadius, innerRadius, _distance);
         return Mathf.Clamp01(weight);
     }
