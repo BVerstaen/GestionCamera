@@ -59,7 +59,6 @@ public class TriggerViewVolume : AViewVolume
         //Capsule collider
         if (collider is CapsuleCollider capsule)
         {
-            // Capsules are tricky: we approximate it using a wire cube
             Vector3 size = Vector3.zero;
             switch (capsule.direction)
             {
