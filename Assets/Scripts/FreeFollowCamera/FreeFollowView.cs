@@ -20,7 +20,7 @@ public class FreeFollowView:  AView
 
     [SerializeField] private Curve _curve;
     [SerializeField] private float _curvePosition = 0.5f;
-    [SerializeField] private float curvePosition { get => _curvePosition; set => Mathf.Clamp01(value); }
+    [SerializeField] private float curvePosition { get => _curvePosition; set => _curvePosition = Mathf.Clamp01(value); }
     [SerializeField] private float _curveSpeed = 1;
 
     private void Reset()
@@ -72,7 +72,6 @@ public class FreeFollowView:  AView
     {
         if (weight <= 0)
             return;
-
         curvePosition += a_input * _curveSpeed * a_deltaTime;
     }
 
