@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7674858763566109755
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3881761148842567438}
+  - component: {fileID: 3876469536809410831}
+  m_Layer: 0
+  m_Name: FreeFollowView
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3881761148842567438
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7674858763566109755}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3876469536809410831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7674858763566109755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3196262ac5b854ec8b6af283645b805f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsActiveOnStart: 1
+  _weight: 1
+  gizmosColor: {r: 1, g: 0.97001815, b: 0, a: 1}
+  pitch:
+  - 0
+  - 0
+  - 0
+  roll:
+  - 0
+  - 0
+  - 0
+  fov:
+  - 70
+  - 70
+  - 70
+  yaw: 0
+  yawSpeed: 1
+  _curve:
+    A: {x: 0, y: 2.04, z: 0}
+    B: {x: 0, y: 2.33, z: -3.09}
+    C: {x: 0, y: 1.28, z: -3.52}
+    D: {x: 0, y: -1.8, z: -0.54}
+  _curvePosition: 0
+  _curveSpeed: 1
