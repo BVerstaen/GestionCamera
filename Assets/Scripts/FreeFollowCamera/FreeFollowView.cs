@@ -19,13 +19,20 @@ public class FreeFollowView:  AView
     private float _target;
 
     [SerializeField] private Curve _curve;
-    [SerializeField] private float _curvePosition;
+    [SerializeField] private float _curvePosition = 0.5f;
     [SerializeField] private float curvePosition { get => _curvePosition; set => Mathf.Clamp01(value); }
     [SerializeField] private float _curveSpeed = 1;
 
     private void Reset()
     {
         gizmosColor = Color.yellow;
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+
+        curvePosition = 0.5f;
     }
 
     public override CameraConfiguration GetConfiguration()
@@ -56,10 +63,16 @@ public class FreeFollowView:  AView
 
     public void OnYawInputs(float a_input, float a_deltaTime)
     {
+        if (weight <= 0)
+            return;
+
         yaw += a_input * yawSpeed * a_deltaTime;
     }
     public void OnCurveInputs(float a_input, float a_deltaTime)
     {
+        if (weight <= 0)
+            return;
+
         curvePosition += a_input * _curveSpeed * a_deltaTime;
     }
 
