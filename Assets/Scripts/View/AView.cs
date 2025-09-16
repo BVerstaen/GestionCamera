@@ -29,7 +29,7 @@ public class AView : MonoBehaviour
         throw new System.NotImplementedException();
     }
 
-    public void SetActive(bool a_isActive)
+    public virtual void SetActive(bool a_isActive)
     {
         if (a_isActive)
             CameraController.Instance.AddView(this);

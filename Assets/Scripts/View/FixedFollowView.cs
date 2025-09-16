@@ -13,6 +13,8 @@ public class FixedFollowView : AView
     public Vector3 target;
     public Transform targetTransform;
 
+    public bool _getLastCameraPos;
+
     private void Reset()
     {
         if (CameraController.Instance != null)
@@ -58,5 +60,13 @@ public class FixedFollowView : AView
         }
 
         return cameraConfiguration;
+    }
+
+    public override void SetActive(bool a_isActive)
+    {
+        if (_getLastCameraPos && a_isActive)
+            transform.position = Camera.main.transform.position;
+
+        base.SetActive(a_isActive);
     }
 }
