@@ -9,6 +9,8 @@ public class AViewVolume : MonoBehaviour
     private int _Uid = 0;
     public static int NextUid = 0;
 
+    public bool isCutOnSwitch;
+
     protected bool IsActive {  get; private set; }
 
     public int Uid { get => _Uid; }
@@ -28,6 +30,9 @@ public class AViewVolume : MonoBehaviour
             ViewVolumeBlender.Instance.AddVolume(this);
         else 
             ViewVolumeBlender.Instance.RemoveVolume(this);
+
+        if (isCutOnSwitch)
+            CameraController.Instance.Cut();
     }
 
 }

@@ -25,6 +25,8 @@ public class CameraController : MonoBehaviour
 
     private List<AView> activeViews;
 
+    private bool _isCutRequested = false;
+
     private void OnValidate()
     {
         _currentConfiguration.OnClampPitch();
@@ -55,7 +57,17 @@ public class CameraController : MonoBehaviour
     private void Update()
     {
         _targetConfiguration = ComputeAverage();
-        SmoothCurrentConfigurationToTarget();
+
+        if (_isCutRequested)
+        {
+            _currentConfiguration = _targetConfiguration;
+            _isCutRequested = false;
+        }
+        else
+        {
+            SmoothCurrentConfigurationToTarget();
+        }
+
         ApplyConfiguration();
     }
 
@@ -131,16 +143,6 @@ public class CameraController : MonoBehaviour
 
         return newConfig;
     }
-    public float ComputeAverageYaw()
-    {
-        Vector2 sum = Vector2.zero;
-        foreach (AView view in activeViews)
-        {
-            CameraConfiguration config = view.GetConfiguration();
-            sum += new Vector2(Mathf.Cos(config.yaw * Mathf.Deg2Rad), Mathf.Sin(config.yaw * Mathf.Deg2Rad)) * view.weight;
-        }
-        return Vector2.SignedAngle(Vector2.right, sum);
-    }
 
     private void SmoothCurrentConfigurationToTarget()
     {
@@ -161,5 +163,10 @@ public class CameraController : MonoBehaviour
         }
         else
             _currentConfiguration = _targetConfiguration;
+    }
+
+    public void Cut()
+    {
+        _isCutRequested = true;
     }
 }
