@@ -32,4 +32,14 @@ public class TriggerViewVolume : AViewVolume
         if (other.CompareTag(_tagName))
             SetActive(false);
     }
+
+    private void OnDrawGizmos()
+    {
+        BoxCollider collider = gameObject.GetComponent<BoxCollider>();
+        if (collider)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireCube(transform.position + collider.center, collider.size);
+        }
+    }
 }

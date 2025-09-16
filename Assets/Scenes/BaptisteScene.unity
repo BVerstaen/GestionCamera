@@ -1164,6 +1164,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1276266914671882962, guid: b5b70e2d1a9172b40a61b8d17ee8a066, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 1714439227902977408, guid: b5b70e2d1a9172b40a61b8d17ee8a066, type: 3}
+      propertyPath: _railColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2574075001299760343, guid: b5b70e2d1a9172b40a61b8d17ee8a066, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 2936012306627842887, guid: b5b70e2d1a9172b40a61b8d17ee8a066, type: 3}
       propertyPath: m_LocalPosition.x
       value: -17.69
@@ -1176,6 +1188,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 7.17
       objectReference: {fileID: 0}
+    - target: {fileID: 3862526490024155235, guid: b5b70e2d1a9172b40a61b8d17ee8a066, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 4674054127925068775, guid: b5b70e2d1a9172b40a61b8d17ee8a066, type: 3}
       propertyPath: m_Name
       value: DollyView
@@ -1196,6 +1212,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 3.31
       objectReference: {fileID: 0}
+    - target: {fileID: 7482878126297391833, guid: b5b70e2d1a9172b40a61b8d17ee8a066, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 3443629218296621865, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 7634084448957785257, guid: b5b70e2d1a9172b40a61b8d17ee8a066, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.23
@@ -1214,6 +1234,18 @@ PrefabInstance:
       objectReference: {fileID: 1513254002}
     - target: {fileID: 7915483972368971739, guid: b5b70e2d1a9172b40a61b8d17ee8a066, type: 3}
       propertyPath: distance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7915483972368971739, guid: b5b70e2d1a9172b40a61b8d17ee8a066, type: 3}
+      propertyPath: gizmosColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7915483972368971739, guid: b5b70e2d1a9172b40a61b8d17ee8a066, type: 3}
+      propertyPath: gizmosColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7915483972368971739, guid: b5b70e2d1a9172b40a61b8d17ee8a066, type: 3}
+      propertyPath: gizmosColor.r
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8568396431624443862, guid: b5b70e2d1a9172b40a61b8d17ee8a066, type: 3}
