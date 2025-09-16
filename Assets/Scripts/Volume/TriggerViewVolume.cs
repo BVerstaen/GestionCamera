@@ -6,7 +6,7 @@ public class TriggerViewVolume : AViewVolume
 
     private void OnValidate()
     {
-        BoxCollider collider = gameObject.GetComponent<BoxCollider>();
+        Collider collider = gameObject.GetComponent<Collider>();
         if (collider == null)
         {
             Debug.LogWarning($"GameObject on TriggeredViewVolume need to have a collider in mode trigger (name {gameObject.name})");
