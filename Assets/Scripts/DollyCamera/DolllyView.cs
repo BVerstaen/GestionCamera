@@ -19,7 +19,7 @@ public class DolllyView : AView
 
         if (IsAuto)
             cameraConfiguration.pivot = rail.GetNearestPositionFromTarget(target.position);
-        else
+        else if (rail.IsRailNodesInitialized())
             cameraConfiguration.pivot = rail.GetPosition(distanceOnRail);
 
         Vector3 dir = (target.position - cameraConfiguration.pivot).normalized;
@@ -62,8 +62,6 @@ public class DolllyView : AView
         //Get first child, if exist
         if (rail.transform.childCount > 0)
         {
-            camConfig.pivot = rail.transform.GetChild(0).position;
-
             Gizmos.color = gizmosColor;
             Gizmos.DrawSphere(camConfig.pivot, 0.1f);
             Vector3 position = camConfig.GetPosition();
