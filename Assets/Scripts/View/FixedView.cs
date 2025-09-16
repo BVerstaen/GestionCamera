@@ -21,8 +21,11 @@ public class FixedView : AView
         cameraConfiguration.distance = 0;
 
         cameraConfiguration.OnClampPitch();
-        if (!CameraController.Instance.fullRollRotation)
-            cameraConfiguration.OnClampRoll();
+        if (CameraController.Instance)
+        {
+            if (!CameraController.Instance.fullRollRotation)
+                cameraConfiguration.OnClampRoll();
+        }
 
         return cameraConfiguration;
     }
