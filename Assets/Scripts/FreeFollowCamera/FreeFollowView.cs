@@ -19,10 +19,14 @@ public class FreeFollowView:  AView
     private float _target;
 
     [SerializeField] private Curve _curve;
-    private float _curvePosition;
+    [SerializeField] private float _curvePosition;
     [SerializeField] private float curvePosition { get => _curvePosition; set => Mathf.Clamp01(value); }
     [SerializeField] private float _curveSpeed = 1;
 
+    private void Reset()
+    {
+        gizmosColor = Color.yellow;
+    }
 
     public override CameraConfiguration GetConfiguration()
     {
@@ -71,5 +75,11 @@ public class FreeFollowView:  AView
             float temp = (curvePosition - 0.5f) / 0.5f;
             return Mathf.Lerp(a_values[1], a_values[2], temp);
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (_curve != null)
+            _curve.DrawGizmo(gizmosColor, Matrix4x4.TRS(transform.position, Quaternion.Euler(0, yaw, 0), Vector3.one));
     }
 }
