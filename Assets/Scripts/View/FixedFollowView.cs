@@ -17,10 +17,8 @@ public class FixedFollowView : AView
 
     private void Reset()
     {
-        if (CameraController.Instance != null)
-        {
-            targetTransform = CameraController.Instance.transform;
-        }
+        if (targetTransform == null)
+            targetTransform = GameObject.FindGameObjectWithTag("Player").transform; 
     }
 
     protected override void OnValidate()
@@ -29,6 +27,9 @@ public class FixedFollowView : AView
 
         _yawOffsetMax = Mathf.Clamp(_yawOffsetMax, 0, 180);
         _pitchOffsetMax = Mathf.Clamp(_pitchOffsetMax, 0, 90);
+
+        if (targetTransform == null)
+            targetTransform = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     public override CameraConfiguration GetConfiguration()
