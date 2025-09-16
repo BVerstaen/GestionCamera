@@ -41,6 +41,8 @@ public class Rail : MonoBehaviour
 
     public float GetLength() => _length;
 
+    public bool IsRailNodesInitialized() => _railNodes.Count > 0;
+
     public Vector3 GetPosition(float a_distance)
     {
         //Si loop -> faire boucler la distance

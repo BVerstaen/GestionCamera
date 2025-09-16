@@ -17,10 +17,19 @@ public class DolllyView : AView
     {
         CameraConfiguration cameraConfiguration = new CameraConfiguration();
 
-        if (IsAuto)
-            cameraConfiguration.pivot = rail.GetNearestPositionFromTarget(target.position);
+        //Used in debug for the gizmos
+        if (!Application.isPlaying)
+        {
+            if (rail.transform.childCount > 0)
+                cameraConfiguration.pivot = rail.transform.GetChild(0).transform.position;
+        }
         else
-            cameraConfiguration.pivot = rail.GetPosition(distanceOnRail);
+        {
+            if (IsAuto)
+                cameraConfiguration.pivot = rail.GetNearestPositionFromTarget(target.position);
+            else if (rail.IsRailNodesInitialized())
+                cameraConfiguration.pivot = rail.GetPosition(distanceOnRail);
+        }
 
         Vector3 dir = (target.position - cameraConfiguration.pivot).normalized;
         cameraConfiguration.yaw = (Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg);
@@ -62,8 +71,6 @@ public class DolllyView : AView
         //Get first child, if exist
         if (rail.transform.childCount > 0)
         {
-            camConfig.pivot = rail.transform.GetChild(0).position;
-
             Gizmos.color = gizmosColor;
             Gizmos.DrawSphere(camConfig.pivot, 0.1f);
             Vector3 position = camConfig.GetPosition();
