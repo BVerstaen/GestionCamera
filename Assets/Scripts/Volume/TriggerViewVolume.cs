@@ -35,7 +35,7 @@ public class TriggerViewVolume : AViewVolume
 
     private void OnDrawGizmos()
     {
-        Collider collider = gameObject.GetComponent<BoxCollider>();
+        Collider collider = gameObject.GetComponent<Collider>();
         if (collider == null)
             return;
 
