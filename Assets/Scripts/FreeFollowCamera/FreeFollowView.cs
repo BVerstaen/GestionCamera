@@ -1,4 +1,3 @@
-using System.Xml;
 using UnityEngine;
 
 public enum CameraPosition
