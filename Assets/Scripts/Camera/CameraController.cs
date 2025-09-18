@@ -55,8 +55,7 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
-        if (cameraShake == null)
-            TryGetComponent<CameraShake>(out _shake);
+        _shake = CameraShake.Instance;
         
         _currentConfiguration = ComputeAverage();
         _targetConfiguration = ComputeAverage();
@@ -97,10 +96,10 @@ public class CameraController : MonoBehaviour
 
     private void ApplyShake(ref CameraConfiguration r_cameraConfig)
     {
-        if (_shake.shakeCurrent <= 0)
+        if (cameraShake.shakeCurrent <= 0)
             return;
 
-        float intensity = _shake.shakeCurrent * _cameraShakeFactor;
+        float intensity = cameraShake.shakeCurrent * _cameraShakeFactor;
 
         if (controlledCamera.orthographic)
         {

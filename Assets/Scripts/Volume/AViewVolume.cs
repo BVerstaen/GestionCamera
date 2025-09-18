@@ -34,5 +34,4 @@ public class AViewVolume : MonoBehaviour
         else 
             ViewVolumeBlender.Instance.RemoveVolume(this);
     }
-
 }
