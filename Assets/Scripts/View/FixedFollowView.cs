@@ -18,7 +18,7 @@ public class FixedFollowView : AView
     private void Reset()
     {
         if (targetTransform == null)
-            targetTransform = GameObject.FindGameObjectWithTag("Player").transform; 
+            targetTransform = GameObject.FindGameObjectWithTag("Player")?.transform; 
     }
 
     protected override void OnValidate()
