@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.Rendering.STP;
 
 public class CameraController : MonoBehaviour
 {
@@ -9,6 +7,8 @@ public class CameraController : MonoBehaviour
 
     [Header("References")]
     public Camera controlledCamera;
+    [SerializeField] private CameraCollision _cameraCollision;
+    [Space]
     [SerializeField] private CameraConfiguration _currentConfiguration;
     [SerializeField] private CameraConfiguration _targetConfiguration;
 
@@ -64,6 +64,10 @@ public class CameraController : MonoBehaviour
     private void Update()
     {
         _targetConfiguration = ComputeAverage();
+
+        //Collision 
+        if(!_cameraCollision.HasClearPathToTarget(_targetConfiguration.pivot, out Vector3 hitPosition))
+            _targetConfiguration.pivot = hitPosition;
 
         if (_isCutRequested)
         {

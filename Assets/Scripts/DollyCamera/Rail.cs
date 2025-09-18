@@ -158,6 +158,9 @@ public class Rail : MonoBehaviour
         {
             Gizmos.DrawLine(transform.GetChild(i).position, transform.GetChild(i + 1).position);
         }
+        if (IsLoop)
+            Gizmos.DrawLine(transform.GetChild(transform.childCount - 1).position, transform.GetChild(0).position);
+
 
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(_playerPosOnRail, .2f);
