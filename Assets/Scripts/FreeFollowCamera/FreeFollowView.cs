@@ -27,7 +27,7 @@ public class FreeFollowView:  AView
     {
         gizmosColor = Color.yellow;
     }
-
+    
     protected override void Start()
     {
         base.Start();

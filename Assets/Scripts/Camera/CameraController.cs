@@ -20,13 +20,18 @@ public class CameraController : MonoBehaviour
     [SerializeField] private Color _debugColor;
 
     [SerializeField] private bool _fullRollRotation;
-    public bool fullRollRotation { get => _fullRollRotation;}
+    public bool fullRollRotation { get => _fullRollRotation; }
     [SerializeField] private bool _deactivateSmooth;
 
     private List<AView> activeViews;
-
+    
     private bool _isCutRequested = false;
 
+    private CameraShake _shake;
+    public CameraShake cameraShake { get => _shake; }
+    [SerializeField] private float _cameraShakeFactor = 1f;
+    [SerializeField] public bool rollShake = false;
+    
     private void OnValidate()
     {
         _currentConfiguration.OnClampPitch();
@@ -50,6 +55,9 @@ public class CameraController : MonoBehaviour
 
     private void Start()
     {
+        if (cameraShake == null)
+            TryGetComponent<CameraShake>(out _shake);
+        
         _currentConfiguration = ComputeAverage();
         _targetConfiguration = ComputeAverage();
     }
@@ -78,11 +86,35 @@ public class CameraController : MonoBehaviour
 
     private void ApplyConfiguration()
     {
-        //_targetConfiguration = ComputeAverage();
+        CameraConfiguration applyConfiguration = _currentConfiguration;
+        
+        ApplyShake(ref applyConfiguration);
 
-        controlledCamera.transform.position = _currentConfiguration.GetPosition();
-        controlledCamera.transform.rotation = _currentConfiguration.GetRotation();
-        controlledCamera.fieldOfView = _currentConfiguration.fieldOfView;
+        controlledCamera.transform.position = applyConfiguration.GetPosition();
+        controlledCamera.transform.rotation = applyConfiguration.GetRotation();
+        controlledCamera.fieldOfView = applyConfiguration.fieldOfView;
+    }
+
+    private void ApplyShake(ref CameraConfiguration r_cameraConfig)
+    {
+        if (_shake.shakeCurrent <= 0)
+            return;
+
+        float intensity = _shake.shakeCurrent * _cameraShakeFactor;
+
+        if (controlledCamera.orthographic)
+        {
+            r_cameraConfig.pivot += new Vector3(Random.Range(intensity / 2f, intensity),
+                                                Random.Range(intensity / 2f, intensity),
+                                                Random.Range(intensity / 2f, intensity));
+        }
+        else
+        {
+            r_cameraConfig.yaw += Random.Range(intensity / 2f, intensity);
+            r_cameraConfig.pitch += Random.Range(intensity / 2f, intensity);
+            if (rollShake)
+                r_cameraConfig.roll += Random.Range(intensity / 2f, intensity);
+        }
     }
 
     public void AddView(AView view)
@@ -169,4 +201,6 @@ public class CameraController : MonoBehaviour
     {
         _isCutRequested = true;
     }
+
+
 }
