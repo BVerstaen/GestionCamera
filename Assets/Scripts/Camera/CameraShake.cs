@@ -6,7 +6,7 @@ public class CameraShake : MonoBehaviour
 {
     public static CameraShake Instance;
     
-    [SerializeField] private const float c_shakeDefaultFade = 1f;
+    [SerializeField] public const float c_defaultFade = 1f;
 
     private float _shakeConstant = 0f;
     [SerializeField] public float shakeCurrent { get; private set; } = 0f;
@@ -76,7 +76,7 @@ public class CameraShake : MonoBehaviour
         _currentShakes.Remove(a_id);
     }
 
-    public int ShakeImpulse(float a_intensity, bool a_additiveOfConstant = false, float a_duration = c_shakeDefaultFade)
+    public int ShakeImpulse(float a_intensity, bool a_additiveOfConstant = false, float a_duration = c_defaultFade)
     {
         int id;
         do
@@ -89,7 +89,7 @@ public class CameraShake : MonoBehaviour
         
         return id;
     }
-    public int ShakeWithCurve(float a_intensity, AnimationCurve a_curve ,bool a_additiveOfConstant = false, float a_duration = 0)
+    public int ShakeOneShot(float a_intensity, AnimationCurve a_curve ,bool a_additiveOfConstant = false, float a_duration = 0)
     {
         int id;
         do
@@ -134,7 +134,7 @@ public class CameraShake : MonoBehaviour
         _currentShakes.Clear();
     }
 
-    public void ChangeShakeConstant(float a_intensity, float a_fadeDuration = c_shakeDefaultFade, bool a_blend = false)
+    public void ChangeShakeConstant(float a_intensity, float a_fadeDuration = 0, bool a_blend = false)
     {
         if (a_fadeDuration <= 0)
             _shakeConstant = a_intensity;
