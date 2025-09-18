@@ -28,7 +28,7 @@ public class FixedFollowView : AView
         _yawOffsetMax = Mathf.Clamp(_yawOffsetMax, 0, 180);
         _pitchOffsetMax = Mathf.Clamp(_pitchOffsetMax, 0, 90);
 
-        if (targetTransform == null)
+        if (targetTransform != null)
             targetTransform = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
