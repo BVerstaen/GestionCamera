@@ -10,9 +10,11 @@ public class DolllyView : AView
     public Transform target;
     [Space]
     public Rail rail;
+
+    [Header("Manual control")]
     public float distanceOnRail;
     public float speed;
-
+    
     public override CameraConfiguration GetConfiguration()
     {
         CameraConfiguration cameraConfiguration = new CameraConfiguration();
@@ -40,14 +42,14 @@ public class DolllyView : AView
         return cameraConfiguration;
     }
 
-    //TEST FOR RAIL
-    private void Update()
-    {
-        if (Input.GetKey(KeyCode.Q))
-            MoveDistanceOnRail(-1);
-        else if (Input.GetKey(KeyCode.D))
-            MoveDistanceOnRail(1);
-    }
+    ////TEST FOR RAIL
+    //private void Update()
+    //{
+    //    if (Input.GetKey(KeyCode.Q))
+    //        MoveDistanceOnRail(-1);
+    //    else if (Input.GetKey(KeyCode.D))
+    //        MoveDistanceOnRail(1);
+    //}
 
     public void MoveDistanceOnRail(int a_direction)
     {

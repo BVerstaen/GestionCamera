@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -112,6 +113,43 @@ public class Rail : MonoBehaviour
         return currentSmallestPosition;
     }
 
+    public float GetProgressionOnRail(Vector3 a_targetPosition)
+    {
+        Vector3 pointOnRail = GetNearestPositionFromTarget(a_targetPosition);
+        _playerPosOnRail = pointOnRail;
+
+        float cumulated = 0f;
+
+        for (int i = 0; i < _railNodes.Count - 1; i++)
+        {
+            Vector3 proj = MathUtils.GetNearestPointOnSegment(_railNodes[i], _railNodes[i + 1], pointOnRail);
+            if ((proj - pointOnRail).sqrMagnitude <= 1e-6f)
+            {
+                cumulated += Vector3.Distance(_railNodes[i], pointOnRail);
+                return Mathf.Clamp01(cumulated / _length);
+            }
+
+            cumulated += Vector3.Distance(_railNodes[i], _railNodes[i + 1]);
+        }
+
+        //Si IsLoop -> connect last to first
+        if (IsLoop)
+        {
+            int last = _railNodes.Count - 1;
+            Vector3 proj = MathUtils.GetNearestPointOnSegment(_railNodes[last], _railNodes[0], pointOnRail);
+
+            if ((proj - pointOnRail).sqrMagnitude <= 1e-6f)
+            {
+                cumulated += Vector3.Distance(_railNodes[last], pointOnRail);
+                return Mathf.Clamp01(cumulated / _length);
+            }
+        }
+
+        return 1f;
+    }
+
+    private Vector3 _playerPosOnRail = Vector3.zero;
+
     private void OnDrawGizmos()
     {
         //Draw debug rail
@@ -120,5 +158,8 @@ public class Rail : MonoBehaviour
         {
             Gizmos.DrawLine(transform.GetChild(i).position, transform.GetChild(i + 1).position);
         }
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(_playerPosOnRail, .2f);
     }
 }
