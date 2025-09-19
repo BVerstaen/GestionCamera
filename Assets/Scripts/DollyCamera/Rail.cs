@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using NaughtyAttributes;
+using System;
 
 public class Rail : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class Rail : MonoBehaviour
     private List<Transform> _railNodes = new List<Transform>();
     private List<Transform> _bezierNodes = new List<Transform>();
     private float _length;
+
+    private int _limit = 1000;
 
     private void Start()
     {
@@ -57,38 +60,57 @@ public class Rail : MonoBehaviour
 
         if (IsLoop)
         {
-            while (_bezierNodes.Count == _railNodes.Count)
+            int limit = _limit;
+            while (_bezierNodes.Count != _railNodes.Count && limit > 0)
             {
+                limit--;
                 if (_bezierNodes.Count > _railNodes.Count)
                 {
                     _bezierNodes.RemoveAt(_bezierNodes.Count - 1);
                 }
                 else if (_bezierNodes.Count < _railNodes.Count)
                 {
-                    Transform _point = Instantiate(new GameObject(),
-                                                   _railNodes[_bezierNodes.Count].position + (_railNodes[_bezierNodes.Count].position - _railNodes[_bezierNodes.Count + 1].position),
-                                                   Quaternion.Euler(Vector3.zero), transform).transform;
+                    Transform _point;
+                    
+                    if (_bezierNodes.Count == _railNodes.Count - 1)
+                    {
+                        print($" - 1 | Rail :{_railNodes.Count} | Bezier :{_bezierNodes.Count}");
+                        _point = Instantiate(new GameObject(),
+                               _railNodes[_railNodes.Count - 1].position + (_railNodes[0].position - _railNodes[_railNodes.Count - 1].position) / 2,
+                               Quaternion.Euler(Vector3.zero), transform).transform;
+                    }
+                    else
+                    {
+                        print($" 1 | Rail :{_railNodes.Count} | Bezier :{_bezierNodes.Count}");
+                        _point = Instantiate(new GameObject(),
+                                                       _railNodes[_bezierNodes.Count].position + (_railNodes[_bezierNodes.Count + 1].position - _railNodes[_bezierNodes.Count].position) / 2,
+                                                       Quaternion.Euler(Vector3.zero), transform).transform;
+                    }
                     _point.tag = "BezierNode";
-                    _point.name = $"Bezier [{_bezierNodes}]";
+                    _point.name = $"Bezier [{_bezierNodes.Count}]";
                     _bezierNodes.Add(_point);
                 }
             }
         }
         else
         {
-            while (_bezierNodes.Count == _railNodes.Count - 1)
+            int limit = _limit;
+            while (_bezierNodes.Count != _railNodes.Count - 1 && limit > 0)
             {
+                limit--;
                 if (_bezierNodes.Count > _railNodes.Count - 1)
                 {
                     _bezierNodes.RemoveAt(_bezierNodes.Count - 1);
                 }
                 else if (_bezierNodes.Count < _railNodes.Count - 1)
                 {
+                    print($" 2 | Rail :{_railNodes.Count} | Bezier :{_bezierNodes.Count}");
+
                     Transform _point = Instantiate(new GameObject(),
-                                                   _railNodes[_bezierNodes.Count].position + (_railNodes[_bezierNodes.Count].position - _railNodes[_bezierNodes.Count + 1].position),
+                                                   _railNodes[_bezierNodes.Count].position + (_railNodes[_bezierNodes.Count + 1].position - _railNodes[_bezierNodes.Count].position) / 2,
                                                    Quaternion.Euler(Vector3.zero), transform).transform;
                     _point.tag = "BezierNode";
-                    _point.name = $"Bezier [{_bezierNodes}]";
+                    _point.name = $"Bezier [{_bezierNodes.Count}]";
                     _bezierNodes.Add(_point);
                 }
             }
@@ -138,8 +160,13 @@ public class Rail : MonoBehaviour
     public Vector3 GetNearestPositionFromTarget(Vector3 a_targetPosition)
     {
         //Used for gizmos debug
-        if (_railNodes.Count <= 0)
+        if (_railNodes == null || 
+            _bezierNodes == null || 
+            (IsLoop && _railNodes.Count != _bezierNodes.Count) || 
+            (!IsLoop && _railNodes.Count - 1 != _bezierNodes.Count))
             GetRailNodes();
+        if (_railNodes.Count <= 1 || _bezierNodes.Count <= 0)
+            throw new Exception("Missing nodes");
 
         float currentSmallestDistance = Mathf.Infinity;
         Vector3 currentSmallestPosition = Vector3.zero;
@@ -201,9 +228,12 @@ public class Rail : MonoBehaviour
         if (_railNodes == null || _bezierNodes == null || (IsLoop && _railNodes.Count != _bezierNodes.Count) || (!IsLoop && _railNodes.Count - 1 != _bezierNodes.Count))
             GetRailNodes();
 
+        if (_railNodes.Count <= 1 || _bezierNodes.Count <= 0)
+            throw new Exception("Missing nodes");
+
         //Draw debug rail
         Gizmos.color = _railColor;
-        for (int i = 0; i < transform.childCount - 1; i++)
+        for (int i = 0; i < _railNodes.Count - 1; i++)
         {
             for (int j = 1; j <= 10; j++)
             {
