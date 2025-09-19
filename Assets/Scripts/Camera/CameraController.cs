@@ -206,13 +206,11 @@ public class CameraController : MonoBehaviour
         _isCutRequested = true;
     }
 
-    public void AddDeactivateCameraCollision()
-    {
-        _cameraCollision.AddNoCollisionVolume();
-    }
+    public void AddDeactivateCameraCollision() => _cameraCollision.AddNoCollisionVolume();
 
-    public void RemoveDeactivateCameraCollision()
-    {
-        _cameraCollision.RemoveNoCollisionVolume();
-    }
+    public void RemoveDeactivateCameraCollision() => _cameraCollision.RemoveNoCollisionVolume();
+
+    public void AddActivateCameraCollision() => _cameraCollision.AddActivateCollisionVolume();
+
+    public void RemoveActivateCameraCollision() => _cameraCollision.RemoveActivateCollisionVolume();
 }

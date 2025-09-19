@@ -3,6 +3,13 @@ using UnityEngine;
 
 public class AViewVolume : MonoBehaviour
 {
+    private enum ChangeCameraCollision
+    {
+        DontChange,
+        DeactivateCollision,
+        ActivateCollision
+    }
+
     public int priority = 0;
     public AView view;
 
@@ -10,7 +17,8 @@ public class AViewVolume : MonoBehaviour
     public static int NextUid = 0;
 
     public bool isCutOnSwitch;
-    [SerializeField] private bool _deactivateCameraCollisionDetection;
+
+    [SerializeField] private ChangeCameraCollision _changeCameraCollision;
 
     protected bool IsActive {  get; private set; }
 
@@ -34,15 +42,19 @@ public class AViewVolume : MonoBehaviour
         {
             ViewVolumeBlender.Instance.AddVolume(this);
 
-            if (_deactivateCameraCollisionDetection)
+            if (_changeCameraCollision == ChangeCameraCollision.DeactivateCollision)
                 CameraController.Instance.AddDeactivateCameraCollision();
+            else if (_changeCameraCollision == ChangeCameraCollision.ActivateCollision)
+                CameraController.Instance.AddActivateCameraCollision();
         }
         else
         {
             ViewVolumeBlender.Instance.RemoveVolume(this);
 
-            if (_deactivateCameraCollisionDetection)
+            if (_changeCameraCollision == ChangeCameraCollision.DeactivateCollision)
                 CameraController.Instance.RemoveDeactivateCameraCollision();
+            else if (_changeCameraCollision == ChangeCameraCollision.ActivateCollision)
+                CameraController.Instance.RemoveActivateCameraCollision();
         } 
     }
 }
