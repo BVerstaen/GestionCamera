@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using NaughtyAttributes;
 
 public class Rail : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class Rail : MonoBehaviour
     [SerializeField] private Color _railColor;
 
     private List<Vector3> _railNodes = new List<Vector3>();
+    private List<Vector3> _bezierNodes = new List<Vector3>();
     private float _length;
 
     private void Start()
@@ -36,14 +38,35 @@ public class Rail : MonoBehaviour
 
     public bool IsRailNodesInitialized() => _railNodes.Count > 0;
 
+    [Button]
     private void GetRailNodes()
     {
         _railNodes.Clear();
+        _bezierNodes.Clear();
+
         foreach (Transform child in transform)
         {
             if (child != null)
             {
-                _railNodes.Add(child.transform.position);
+                if (!child.CompareTag("BezierNode"))
+                    _railNodes.Add(child.transform.position);
+                else
+                    _bezierNodes.Add(child.transform.position);
+            }
+        }
+
+        while (_bezierNodes.Count == _railNodes.Count - 1)
+        {
+            if (_bezierNodes.Count > _railNodes.Count - 1)
+            {
+                _bezierNodes.RemoveAt(_bezierNodes.Count - 1);
+            }
+            else if (_bezierNodes.Count < _railNodes.Count - 1)
+            {
+                Transform _point = Instantiate(new GameObject(), _railNodes[_bezierNodes.Count] - _railNodes[_bezierNodes.Count + 1], Quaternion.Euler(Vector3.zero), transform).transform;
+                _point.tag = "BezierNode";
+                _point.name = $"Bezier [{_bezierNodes}]";
+                _bezierNodes.Add(_point.position);
             }
         }
     }
@@ -98,7 +121,8 @@ public class Rail : MonoBehaviour
         Vector3 currentSmallestPosition = Vector3.zero;
         for (int i = 0; i < _railNodes.Count - 1; i++)
         {
-            Vector3 projPosition = MathUtils.GetNearestPointOnSegment(_railNodes[i], _railNodes[i + 1], a_targetPosition);
+            float lerpPosition = MathUtils.GetNearestPointOnSegmentAsLerp(_railNodes[i], _railNodes[i + 1], a_targetPosition);
+            Vector3 projPosition = MathUtils.QuadraticBezier(_railNodes[i], _bezierNodes[i], _railNodes[i + 1], lerpPosition);
             float distanceToTarget = Vector3.Distance(projPosition, a_targetPosition);
 
             if(distanceToTarget < currentSmallestDistance)
@@ -150,14 +174,28 @@ public class Rail : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        if (_railNodes == null || _bezierNodes == null || (IsLoop && _railNodes.Count != _bezierNodes.Count) || (!IsLoop && _railNodes.Count - 1 != _bezierNodes.Count))
+            GetRailNodes();
+
         //Draw debug rail
         Gizmos.color = _railColor;
         for (int i = 0; i < transform.childCount - 1; i++)
         {
-            Gizmos.DrawLine(transform.GetChild(i).position, transform.GetChild(i + 1).position);
+            for (int j = 1; j <= 10; j++)
+            {
+                
+                Gizmos.DrawLine(MathUtils.QuadraticBezier(_railNodes[i], _bezierNodes[i], _railNodes[i + 1], (j-1) / 10f),
+                                MathUtils.QuadraticBezier(_railNodes[i], _bezierNodes[i], _railNodes[i + 1], j / 10f));
+            }
         }
         if (IsLoop)
-            Gizmos.DrawLine(transform.GetChild(transform.childCount - 1).position, transform.GetChild(0).position);
+        {
+            for (int j = 1; j <= 10; j++)
+            {
+                Gizmos.DrawLine(MathUtils.QuadraticBezier(_railNodes[_railNodes.Count - 1], _bezierNodes[_bezierNodes.Count - 1], _railNodes[0], (j - 1) / 10f),
+                                        MathUtils.QuadraticBezier(_railNodes[_railNodes.Count - 1], _bezierNodes[_bezierNodes.Count - 1], _railNodes[0], j / 10f));
+            }
+        }
 
 
         Gizmos.color = Color.red;

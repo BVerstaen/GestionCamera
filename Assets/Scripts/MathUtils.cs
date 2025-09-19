@@ -12,6 +12,15 @@ public class MathUtils : MonoBehaviour
 
         return a + n * DotTarget;
     }
+    public static float GetNearestPointOnSegmentAsLerp(Vector3 a, Vector3 b, Vector3 target)
+    {
+        target = GetNearestPointOnSegment(a,b, target);
+
+        float maxLerp = Vector3.Distance(a,b);
+        float targetLerp = Vector3.Distance(a, target);
+
+        return maxLerp == 0 ? 0 : targetLerp / maxLerp;
+    }
 
     public static Vector3 LinearBezier(Vector3 a, Vector3 b, float t)
     {

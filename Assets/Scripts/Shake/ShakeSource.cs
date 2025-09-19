@@ -59,8 +59,14 @@ public class ShakeSource : MonoBehaviour
         if (_active)
         {
             float distance = (_target.position - transform.position).magnitude;
-            float intensity = Mathf.Lerp( _intensityCenter, _intensityStart, Mathf.Clamp01((distance - DeadZone) / (_maxDistance - DeadZone)));
-            
+            float intensity;
+
+            if (_maxDistance - DeadZone == 0)
+                intensity = Mathf.Lerp(_intensityCenter, _intensityStart, Mathf.Clamp01((distance - DeadZone) / (_maxDistance - DeadZone)));
+            else
+                intensity = _intensityCenter;
+
+
             if (!_constantShake)
                 CameraShake.Instance.ChangeShakeInstanceValue(_id, intensity, _additiveOfConstant);
             else
