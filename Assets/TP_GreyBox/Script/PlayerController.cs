@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 	[SerializeField] private FreeFollowView _followView;
+	[SerializeField] private bool _invertYAxis;
 
 	public float speed = 10.0f;
 
@@ -32,7 +33,7 @@ public class PlayerController : MonoBehaviour
 		//Camera
 		Vector3 mouseMovement = Vector2.zero;
 		mouseMovement += Input.GetAxisRaw("Mouse X") * Vector3.right;
-        mouseMovement += Input.GetAxisRaw("Mouse Y") * Vector3.up;
+        mouseMovement += Input.GetAxisRaw("Mouse Y") * (_invertYAxis ? Vector3.down : Vector3.up);
 		mouseMovement.Normalize();
 		_followView.OnCameraInputs(new Vector2(mouseMovement.x, mouseMovement.y), Time.fixedDeltaTime);
 
