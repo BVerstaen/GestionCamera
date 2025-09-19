@@ -12,6 +12,7 @@ public class FixedFollowView : AView
     public Vector3 target;
     public Transform targetTransform;
 
+    [Space(7)]
     public bool _getLastCameraPos;
 
     private void Reset()

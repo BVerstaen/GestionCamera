@@ -1,8 +1,11 @@
+using System;
 using UnityEngine;
 
 public class TriggerViewVolume : AViewVolume
 {
     [SerializeField] private string _tagName;
+
+    public Action<Vector3> OnExitedTrigger;
 
     private void OnValidate()
     {
@@ -30,7 +33,10 @@ public class TriggerViewVolume : AViewVolume
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag(_tagName))
+        {
             SetActive(false);
+            OnExitedTrigger?.Invoke(Camera.main.transform.position);
+        }
     }
 
     private void OnDrawGizmos()

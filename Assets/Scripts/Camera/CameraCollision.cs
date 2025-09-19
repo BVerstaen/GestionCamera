@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 public class CameraCollision : MonoBehaviour
 {
@@ -10,11 +11,16 @@ public class CameraCollision : MonoBehaviour
 
     private Vector3 _gizmosCameraPoint;
 
+    private int _numberOfActivateCollisionVolumes;
+    private int _numberOfNoCollisionVolumes;
+
     private void OnValidate()
     {
         if (_targetObject == null)
             _targetObject = GameObject.FindGameObjectWithTag("Player");
     }
+
+    public bool CanCollide() => _numberOfActivateCollisionVolumes > 0 && _numberOfNoCollisionVolumes <= 0;
 
     public bool HasClearPathToTarget(Vector3 startPosition, out Vector3 hitPosition)
     {
@@ -34,6 +40,11 @@ public class CameraCollision : MonoBehaviour
         }
         return false;
     }
+
+    public void AddNoCollisionVolume() => _numberOfNoCollisionVolumes++;
+    public void RemoveNoCollisionVolume() => _numberOfNoCollisionVolumes--;
+    public void AddActivateCollisionVolume() => _numberOfActivateCollisionVolumes++;
+    public void RemoveActivateCollisionVolume() => _numberOfActivateCollisionVolumes--;
 
     private void OnDrawGizmos()
     {

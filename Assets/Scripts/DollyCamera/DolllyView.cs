@@ -14,7 +14,15 @@ public class DolllyView : AView
     [Header("Manual control")]
     public float distanceOnRail;
     public float speed;
-    
+
+    protected override void Init()
+    {
+        if (!IsAuto)
+            return;
+
+        base.Init();
+    }
+
     public override CameraConfiguration GetConfiguration()
     {
         CameraConfiguration cameraConfiguration = new CameraConfiguration();

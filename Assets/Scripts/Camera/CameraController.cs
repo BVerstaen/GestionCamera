@@ -24,11 +24,12 @@ public class CameraController : MonoBehaviour
     [SerializeField] private bool _deactivateSmooth;
 
     private List<AView> activeViews;
-    
+
     private bool _isCutRequested = false;
 
     private CameraShake _shake;
-    public CameraShake cameraShake { get => _shake; }
+    public CameraShake cameraShake { get => _shake; }    
+
     [SerializeField] private float _cameraShakeFactor = 1f;
     [SerializeField] public bool rollShake = false;
     
@@ -66,7 +67,7 @@ public class CameraController : MonoBehaviour
         _targetConfiguration = ComputeAverage();
 
         //Collision 
-        if(!_cameraCollision.HasClearPathToTarget(_targetConfiguration.pivot, out Vector3 hitPosition))
+        if (_cameraCollision.CanCollide() && !_cameraCollision.HasClearPathToTarget(_targetConfiguration.pivot, out Vector3 hitPosition))
             _targetConfiguration.pivot = hitPosition;
 
         if (_isCutRequested)
@@ -205,5 +206,11 @@ public class CameraController : MonoBehaviour
         _isCutRequested = true;
     }
 
+    public void AddDeactivateCameraCollision() => _cameraCollision.AddNoCollisionVolume();
 
+    public void RemoveDeactivateCameraCollision() => _cameraCollision.RemoveNoCollisionVolume();
+
+    public void AddActivateCameraCollision() => _cameraCollision.AddActivateCollisionVolume();
+
+    public void RemoveActivateCameraCollision() => _cameraCollision.RemoveActivateCollisionVolume();
 }
