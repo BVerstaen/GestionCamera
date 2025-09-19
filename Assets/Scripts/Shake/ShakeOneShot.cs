@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ShakeOneShot : MonoBehaviour
 {
-    [SerializeField] private float _intensity;
+    [SerializeField] private float _intensity = 1;
     [SerializeField] private AnimationCurve _curve;
     [SerializeField] private bool _additiveOfConstant;
     [SerializeField] private float _duration;

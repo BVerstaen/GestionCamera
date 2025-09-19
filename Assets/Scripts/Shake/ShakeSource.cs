@@ -3,19 +3,38 @@ using UnityEngine;
 
 public class ShakeSource : MonoBehaviour
 {
-    [SerializeField] private float _intensityStart;
-    [SerializeField] private float _intensityCenter;
-    [SerializeField] private bool _additiveOfConstant;
-    [SerializeField] private float _duration;
-    
-    [Space(7)]
     [SerializeField] private bool _constantShake;
+    [SerializeField] private bool _additiveOfConstant;
+    [Space(7)]
+    [SerializeField] private float _intensityStart = 0;
+    [SerializeField] private float _intensityCenter = 1;
+    [SerializeField] private float _fullIntensityZone;
+    private float DeadZone { get => _maxDistance * _fullIntensityZone; set => _fullIntensityZone = Mathf.Clamp01(value); }
+    
 
     private float _maxDistance;
     private Transform _target;
     private int _id;
     private bool _active;
-    
+
+    private bool _wasOnConstant = false;
+
+    private void OnValidate()
+    {
+        DeadZone = _fullIntensityZone;
+
+        if (_constantShake && !_wasOnConstant)
+        {
+            _additiveOfConstant = false;
+            _wasOnConstant = true;
+        }
+        else if (_additiveOfConstant && _wasOnConstant)
+        {
+            _constantShake = false;
+            _wasOnConstant = false;
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -40,7 +59,7 @@ public class ShakeSource : MonoBehaviour
         if (_active)
         {
             float distance = (_target.position - transform.position).magnitude;
-            float intensity = Mathf.Lerp( _intensityCenter, _intensityStart,distance / _maxDistance);
+            float intensity = Mathf.Lerp( _intensityCenter, _intensityStart, Mathf.Clamp01((distance - DeadZone) / (_maxDistance - DeadZone)));
             
             if (!_constantShake)
                 CameraShake.Instance.ChangeShakeInstanceValue(_id, intensity, _additiveOfConstant);
