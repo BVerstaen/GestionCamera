@@ -251,6 +251,16 @@ public class Rail : MonoBehaviour
             }
         }
 
+        foreach (var node in _railNodes)
+        {
+            Gizmos.DrawSphere(node.position, .15f);
+        }
+        Gizmos.color = Color.Lerp(_railColor, Color.black, .5f);
+        foreach (var node in _bezierNodes)
+        {
+            Gizmos.DrawSphere(node.position, .15f);
+        }
+
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(_playerPosOnRail, .2f);
     }
