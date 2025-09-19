@@ -55,18 +55,38 @@ public class Rail : MonoBehaviour
             }
         }
 
-        while (_bezierNodes.Count == _railNodes.Count - 1)
+        if (IsLoop)
         {
-            if (_bezierNodes.Count > _railNodes.Count - 1)
+            while (_bezierNodes.Count == _railNodes.Count)
             {
-                _bezierNodes.RemoveAt(_bezierNodes.Count - 1);
+                if (_bezierNodes.Count > _railNodes.Count)
+                {
+                    _bezierNodes.RemoveAt(_bezierNodes.Count - 1);
+                }
+                else if (_bezierNodes.Count < _railNodes.Count)
+                {
+                    Transform _point = Instantiate(new GameObject(), _railNodes[_bezierNodes.Count] - _railNodes[_bezierNodes.Count + 1], Quaternion.Euler(Vector3.zero), transform).transform;
+                    _point.tag = "BezierNode";
+                    _point.name = $"Bezier [{_bezierNodes}]";
+                    _bezierNodes.Add(_point.position);
+                }
             }
-            else if (_bezierNodes.Count < _railNodes.Count - 1)
+        }
+        else
+        {
+            while (_bezierNodes.Count == _railNodes.Count - 1)
             {
-                Transform _point = Instantiate(new GameObject(), _railNodes[_bezierNodes.Count] - _railNodes[_bezierNodes.Count + 1], Quaternion.Euler(Vector3.zero), transform).transform;
-                _point.tag = "BezierNode";
-                _point.name = $"Bezier [{_bezierNodes}]";
-                _bezierNodes.Add(_point.position);
+                if (_bezierNodes.Count > _railNodes.Count - 1)
+                {
+                    _bezierNodes.RemoveAt(_bezierNodes.Count - 1);
+                }
+                else if (_bezierNodes.Count < _railNodes.Count - 1)
+                {
+                    Transform _point = Instantiate(new GameObject(), _railNodes[_bezierNodes.Count] - _railNodes[_bezierNodes.Count + 1], Quaternion.Euler(Vector3.zero), transform).transform;
+                    _point.tag = "BezierNode";
+                    _point.name = $"Bezier [{_bezierNodes}]";
+                    _bezierNodes.Add(_point.position);
+                }
             }
         }
     }
