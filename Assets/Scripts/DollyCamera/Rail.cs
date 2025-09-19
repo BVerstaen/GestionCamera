@@ -171,19 +171,26 @@ public class Rail : MonoBehaviour
         float currentSmallestDistance = Mathf.Infinity;
         Vector3 currentSmallestPosition = Vector3.zero;
         for (int i = 0; i < _railNodes.Count - 1; i++)
+            CalculateSegment(i, i + 1);
+
+        //Si IsLoop -> connect last to first
+        if (IsLoop)
+            CalculateSegment(_railNodes.Count - 1, 0);
+
+        return currentSmallestPosition;
+
+        void CalculateSegment(int indexStart, int indexEnd)
         {
-            float lerpPosition = MathUtils.GetNearestPointOnSegmentAsLerp(_railNodes[i].position, _railNodes[i + 1].position, a_targetPosition);
-            Vector3 projPosition = MathUtils.QuadraticBezier(_railNodes[i].position, _bezierNodes[i].position, _railNodes[i + 1].position, lerpPosition);
+            float lerpPosition = MathUtils.GetNearestPointOnSegmentAsLerp(_railNodes[indexStart].position, _railNodes[indexEnd].position, a_targetPosition);
+            Vector3 projPosition = MathUtils.QuadraticBezier(_railNodes[indexStart].position, _bezierNodes[indexStart].position, _railNodes[indexEnd].position, lerpPosition);
             float distanceToTarget = Vector3.Distance(projPosition, a_targetPosition);
 
-            if(distanceToTarget < currentSmallestDistance)
+            if (distanceToTarget < currentSmallestDistance)
             {
                 currentSmallestDistance = distanceToTarget;
                 currentSmallestPosition = projPosition;
             }
         }
-
-        return currentSmallestPosition;
     }
 
     public float GetProgressionOnRail(Vector3 a_targetPosition)
