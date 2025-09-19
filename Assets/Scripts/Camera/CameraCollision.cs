@@ -10,11 +10,15 @@ public class CameraCollision : MonoBehaviour
 
     private Vector3 _gizmosCameraPoint;
 
+    private int _numberOfActiveNoCollisionVolumes;
+
     private void OnValidate()
     {
         if (_targetObject == null)
             _targetObject = GameObject.FindGameObjectWithTag("Player");
     }
+
+    public bool CanCollide() => _numberOfActiveNoCollisionVolumes <= 0;
 
     public bool HasClearPathToTarget(Vector3 startPosition, out Vector3 hitPosition)
     {
@@ -34,6 +38,9 @@ public class CameraCollision : MonoBehaviour
         }
         return false;
     }
+
+    public void AddNoCollisionVolume() => _numberOfActiveNoCollisionVolumes++;
+    public void RemoveNoCollisionVolume() => _numberOfActiveNoCollisionVolumes--;
 
     private void OnDrawGizmos()
     {

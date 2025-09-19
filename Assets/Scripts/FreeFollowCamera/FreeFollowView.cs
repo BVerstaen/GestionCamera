@@ -27,11 +27,14 @@ public class FreeFollowView:  AView
         gizmosColor = Color.yellow;
     }
     
-    protected override void Start()
+    protected void Start()
     {
-        base.Start();
-
         curvePosition = 0.5f;
+    }
+
+    protected override void Init()
+    {
+        
     }
 
     public override CameraConfiguration GetConfiguration()
@@ -71,6 +74,7 @@ public class FreeFollowView:  AView
     {
         if (weight <= 0)
             return;
+
         curvePosition += a_input * _curveSpeed * a_deltaTime;
     }
 

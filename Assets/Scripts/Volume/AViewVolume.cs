@@ -10,6 +10,7 @@ public class AViewVolume : MonoBehaviour
     public static int NextUid = 0;
 
     public bool isCutOnSwitch;
+    [SerializeField] private bool _deactivateCameraCollisionDetection;
 
     protected bool IsActive {  get; private set; }
 
@@ -30,8 +31,18 @@ public class AViewVolume : MonoBehaviour
             CameraController.Instance.Cut();
 
         if (isActive)
+        {
             ViewVolumeBlender.Instance.AddVolume(this);
-        else 
+
+            if (_deactivateCameraCollisionDetection)
+                CameraController.Instance.AddDeactivateCameraCollision();
+        }
+        else
+        {
             ViewVolumeBlender.Instance.RemoveVolume(this);
+
+            if (_deactivateCameraCollisionDetection)
+                CameraController.Instance.RemoveDeactivateCameraCollision();
+        } 
     }
 }
