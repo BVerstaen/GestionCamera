@@ -841,6 +841,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8465232387627609782, guid: 757541656dd933140920db1f6152b98b, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+    - target: {fileID: 8465232387627609782, guid: 757541656dd933140920db1f6152b98b, type: 3}
       propertyPath: m_Name
       value: ShakeSource
       objectReference: {fileID: 0}
