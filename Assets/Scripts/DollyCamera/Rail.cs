@@ -162,7 +162,8 @@ public class Rail : MonoBehaviour
         //Used for gizmos debug
         if (_railNodes == null || 
             _bezierNodes == null || 
-            (IsLoop && _railNodes.Count != _bezierNodes.Count) || 
+            (IsLoop && _railNodes.Count != _bezierNodes.Count) ||
+            (IsLoop && (_railNodes.Count + _bezierNodes.Count == 0)) ||
             (!IsLoop && _railNodes.Count - 1 != _bezierNodes.Count))
             GetRailNodes();
         if (_railNodes.Count <= 1 || _bezierNodes.Count <= 0)
