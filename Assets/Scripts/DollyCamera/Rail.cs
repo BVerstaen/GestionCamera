@@ -232,11 +232,15 @@ public class Rail : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (_railNodes == null || _bezierNodes == null || (IsLoop && _railNodes.Count != _bezierNodes.Count) || (!IsLoop && _railNodes.Count - 1 != _bezierNodes.Count))
+        if (_railNodes == null || 
+            _bezierNodes == null || 
+            (IsLoop && _railNodes.Count != _bezierNodes.Count) || 
+            (!IsLoop && _railNodes.Count - 1 != _bezierNodes.Count) ||
+            _railNodes.Count <= 1 || _bezierNodes.Count <= 0)
             GetRailNodes();
 
         if (_railNodes.Count <= 1 || _bezierNodes.Count <= 0)
-            throw new Exception("Missing nodes");
+            throw new Exception($"Missing nodes : Regenerate RailNodes of {gameObject.name} in the inspector");
 
         //Draw debug rail
         Gizmos.color = _railColor;

@@ -8,8 +8,9 @@ public class ShakeSource : MonoBehaviour
     [Space(7)]
     [SerializeField] private float _intensityStart = 0;
     [SerializeField] private float _intensityCenter = 1;
-    [SerializeField] private float _fullIntensityZone;
-    private float DeadZone { get => _maxDistance * _fullIntensityZone; set => _fullIntensityZone = Mathf.Clamp01(value); }
+    //[SerializeField] private float _fullIntensityZone;
+    //private float DeadZone { get => _maxDistance * _fullIntensityZone; set => _fullIntensityZone = Mathf.Clamp01(value); }
+    private float DeadZone = 0; // Deprecated, to rework
     
 
     private float _maxDistance;
@@ -21,7 +22,7 @@ public class ShakeSource : MonoBehaviour
 
     private void OnValidate()
     {
-        DeadZone = _fullIntensityZone;
+        //DeadZone = _fullIntensityZone;
 
         if (_constantShake && !_wasOnConstant)
         {
@@ -33,6 +34,8 @@ public class ShakeSource : MonoBehaviour
             _constantShake = false;
             _wasOnConstant = false;
         }
+        
+        _maxDistance = TryGetComponent<SphereCollider>(out SphereCollider sphereCollider) ? sphereCollider.radius : 0;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -40,10 +43,6 @@ public class ShakeSource : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             _target = other.transform;
-            _maxDistance = (_target.position - transform.position).magnitude;
-
-            if (_maxDistance <= 0)
-                return;
             
             _active = true;
             
@@ -58,14 +57,14 @@ public class ShakeSource : MonoBehaviour
     {
         if (_active)
         {
-            float distance = (_target.position - transform.position).magnitude;
+            Vector3 temp = (_target.position - transform.position);
+            float distance = new Vector3(temp.x, 0, temp.z).magnitude;
             float intensity;
 
-            if (_maxDistance - DeadZone == 0)
+            if (_maxDistance - DeadZone != 0)
                 intensity = Mathf.Lerp(_intensityCenter, _intensityStart, Mathf.Clamp01((distance - DeadZone) / (_maxDistance - DeadZone)));
             else
                 intensity = _intensityCenter;
-
 
             if (!_constantShake)
                 CameraShake.Instance.ChangeShakeInstanceValue(_id, intensity, _additiveOfConstant);

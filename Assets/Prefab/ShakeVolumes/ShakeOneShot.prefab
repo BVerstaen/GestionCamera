@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6081874666401788490}
   - component: {fileID: 1469076116137987394}
   - component: {fileID: 6892225584161616442}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: ShakeOneShot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51,57 +51,21 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      value: 1
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.07813187
-      value: 0.7740627
-      inSlope: 3.6175263
-      outSlope: 3.6175263
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.1087485
-    - serializedVersion: 3
-      time: 0.4223218
-      value: 0.777188
-      inSlope: -1.1176692
-      outSlope: -1.1176692
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.13770162
-    - serializedVersion: 3
-      time: 0.9309392
-      value: 0.38727397
-      inSlope: 0.04007104
-      outSlope: 0.04007104
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.23437044
-    - serializedVersion: 3
-      time: 1.0814877
-      value: 0.613295
-      inSlope: -0.3502437
-      outSlope: -0.3502437
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 2
+      time: 1
       value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
